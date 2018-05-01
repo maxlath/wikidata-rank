@@ -1,8 +1,0 @@
-#!/usr/bin/env node
-const calculate = require('./lib/calculate_domain_network_score')
-
-calculate({
-  scoreDomain: 'secondary',
-  networkScoreDomain: 'network',
-  coefficient: 0.1
-})
