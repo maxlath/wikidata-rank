@@ -5,6 +5,7 @@ const getEntityData = require('./lib/get_entity_data')
 const ops = require('./lib/ops')
 const status = require('./lib/status')
 const { green, grey } = require('chalk')
+const logAndExit = require('./lib/log_and_exit')
 
 process.stdin
 .pipe(split())
@@ -20,3 +21,4 @@ process.stdin
   batch.flush()
   .then(status.done)
 })
+.on('error', logAndExit)

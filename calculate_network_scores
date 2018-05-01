@@ -36,6 +36,7 @@ db.createKeyStream({
   .catch(logAndExit(`network score: ${id}`))
 })
 .on('close', () => flushOnceAllReturned())
+.on('error', logAndExit)
 
 const putNetworkScore = id => networkScore => {
   batch.aggregate(ops.build(`network:${id}`, networkScore))
