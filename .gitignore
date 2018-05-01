@@ -1,0 +1,4 @@
+node_modules
+db
+properties.json
+package-lock.json
