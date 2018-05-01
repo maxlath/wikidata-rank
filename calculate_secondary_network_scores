@@ -2,7 +2,7 @@
 const calculate = require('./lib/calculate_domain_network_score')
 
 calculate({
-  scoreDomain: 'network',
-  networkScoreDomain: 'base',
-  coefficient: 0.25
+  scoreDomain: 'secondary',
+  networkScoreDomain: 'network',
+  coefficient: 0.1
 })
