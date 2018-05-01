@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+dump=$1
+
+[[ -z "$dump" ]] && {
+  echo "expected dump file as first argument"
+  exit 1
+}
+
+cat "$dump" | ./scripts/calculate_base_scores &&
+./scripts/calculate_network_scores &&
+./scripts/calculate_secondary_network_scores &&
+./scripts/calculate_total_scores &&
+echo 'all scores were successfully calculated'
