@@ -1,0 +1,55 @@
+#!/usr/bin/env node
+const db = require('./lib/db')
+const batch = require('./lib/batch')
+const ops = require('./lib/ops')
+const status = require('./lib/status')
+const getNetworkScore = require('./lib/get_network_score')
+const logAndExit = require('./lib/log_and_exit')
+
+var concurrent = 0
+var total = 0
+var returned = 0
+
+db.createKeyStream({
+  gte: 'base:Q',
+  lt: 'base:R'
+})
+.on('data', function (key) {
+  concurrent += 1
+  var paused = false
+
+  if (concurrent > 1000) {
+    this.pause()
+    concurrent = 0
+    paused = true
+  }
+
+  const id = key.replace('base:', '')
+
+  total += 1
+  getNetworkScore(id)
+  .then(putNetworkScore(id))
+  .then(() => {
+    if (paused) this.resume()
+    returned += 1
+  })
+  .catch(logAndExit(`network score: ${id}`))
+})
+.on('close', () => flushOnceAllReturned())
+
+const putNetworkScore = id => networkScore => {
+  batch.aggregate(ops.build(`network:${id}`, networkScore))
+  status.increment()
+}
+
+const flushOnceAllReturned = () => {
+  if (returned === total) {
+    console.log('all previous ops are done')
+    batch.flush()
+    .then(status.done)
+  } else {
+    const remaining = total - returned
+    console.log('waiting for previous ops to be done', { total, remaining })
+    setTimeout(flushOnceAllReturned, 100)
+  }
+}

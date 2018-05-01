@@ -2,7 +2,8 @@
 const split = require('split')
 const batch = require('./lib/batch')
 const getEntityData = require('./lib/get_entity_data')
-const getOpsFromData = require('./lib/get_ops_from_data')
+const ops = require('./lib/ops')
+const status = require('./lib/status')
 const { green, grey } = require('chalk')
 
 process.stdin
@@ -12,19 +13,10 @@ process.stdin
   line = line.replace(/,$/, '')
   const entity = JSON.parse(line)
   const data = getEntityData(entity)
-  batch.aggregate(this, getOpsFromData(entity.id, data))
-  logStatus()
+  batch.aggregate(ops.fromEntityData(entity.id, data), this)
+  status.increment()
 })
 .on('close', () => {
   batch.flush()
-  .then(() => {
-    console.log(green('done'))
-    console.log(green('entities total:'), counter)
-  })
+  .then(status.done)
 })
-
-var counter = 0
-const logStatus = () => {
-  counter += 1
-  if (counter % 10000 === 0) console.log(grey(counter))
-}
