@@ -4,12 +4,20 @@
   "description": "",
   "main": "server/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "update-properties": "wd props --type > properties.json"
+    "start": "export FORCE_COLOR=true; node server/index.js",
+    "watch": "supervisor -w server,lib,config server/index.js",
+    "postinstall": "./scripts/postinstall",
+    "lint": "standard",
+    "test": "mocha",
+    "update-properties": "wd props --type > properties.json",
+    "update-toc": " doctoc README.md"
   },
   "keywords": [
     "wikidata",
-    "rank"
+    "rank",
+    "page rank",
+    "item",
+    "score"
   ],
   "author": "maxlath",
   "license": "AGPL-3.0",
@@ -21,8 +29,29 @@
     "inv-loggers": "^3.3.3",
     "level-party": "^3.0.4",
     "lodash": "^4.17.10",
+    "morgan": "^1.1.1",
+    "serve-favicon": "^2.5.0",
     "split": "^1.0.1",
     "wikidata-cli": "^6.0.4",
     "wikidata-sdk": "^5.9.2"
+  },
+  "standard": {
+    "ignore": [
+      "dist"
+    ],
+    "globals": [
+      "it",
+      "describe"
+    ]
+  },
+  "engines": {
+    "node": "^8.2.1",
+    "npm": "^5.4.1"
+  },
+  "devDependencies": {
+    "bluereq": "^2.1.6",
+    "should": "^13.2.1",
+    "standard": "^11.0.1",
+    "supervisor": "^0.12.0"
   }
 }
