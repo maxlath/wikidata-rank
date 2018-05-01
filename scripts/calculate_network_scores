@@ -1,7 +1,8 @@
 #!/usr/bin/env node
-const calculate = require('../lib/calculate_domain_network_score')
+const calculate = require('../lib/calculate_item_domain_score')
+const getNetworkScore = require('../lib/get_network_score')
 
 calculate({
   scoreDomain: 'network',
-  networkScoreDomain: 'base'
+  getScore: getNetworkScore('base')
 })

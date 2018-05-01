@@ -1,0 +1,21 @@
+#!/usr/bin/env node
+const _ = require('lodash')
+const calculate = require('../lib/calculate_item_domain_score')
+const db = require('../lib/db')
+const domains = [ 'base', 'network', 'secondary' ]
+
+const getTotalScore = id => {
+  return Promise.all([
+    db.get(`base:${id}`),
+    db.get(`network:${id}`),
+    db.get(`secondary:${id}`)
+  ])
+  .then(([ base, network, secondary ]) => {
+    return _.round(base + network * 0.25 + secondary * 0.1, 2)
+  })
+}
+
+calculate({
+  scoreDomain: 'total',
+  getScore: getTotalScore
+})
