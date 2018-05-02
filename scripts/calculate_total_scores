@@ -11,7 +11,7 @@ const getTotalScore = id => {
     db.get(`secondary:${id}`)
   ])
   .then(([ base, network, secondary ]) => {
-    return _.round(base + network * 0.25 + secondary * 0.1, 2)
+    return Math.round(base + network * 0.25 + secondary * 0.1)
   })
 }
 
