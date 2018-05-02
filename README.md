@@ -1,6 +1,17 @@
-# Wikidata Rank
+<!-- Centering -->
+<div style="margin: 0 auto; width: 300px; text-align: center;">
+  <img src="/public/logo_sorted_square.png" width="300">
+  <h1>Wikidata Rank</h1>
+</div>
 
-Attributing scores to Wikidata items, publishing those with a web API and dumps under a CC0 license.
+**Attributing scores to [Wikidata items](https://www.wikidata.org/wiki/Wikidata:Glossary#Item), making those available via a [web API](#web-api) and [dumps](#dumps), under a [CC0](https://creativecommons.org/publicdomain/zero/1.0/) license.**
+
+**Motivation**: when re-using Wikidata data, it can be useful to be able to sort a bunch of items by some kind of score [[1](https://stackoverflow.com/questions/39438022/wikidata-results-sorted-by-something-similar-to-a-pagerank)], [[2](https://github.com/inventaire/inventaire/blob/1aaff2a/server/data/wikidata/queries/links_count.coffee)]. So instead of spamming query.wikidata.org with one SPARQL request per item, we pre-calculate a score for all items from a [Wikidata Dump](https://www.wikidata.org/wiki/Wikidata:Database_download#JSON_dumps_.28recommended.29), and serve them in bulk.
+
+There are already pre-existing works on a [Wikidata Page Rank](http://people.aifb.kit.edu/ath/), but no API to cherry-pick items of interest, and the data isn't in CC0. Other motivations may include traces of just having fun with scoring algorithms.
+
+* [Wikidata Rank page on Wikimedia Toolforge](https://toolsadmin.wikimedia.org/tools/id/wikidata-rank)
+* [Source code](https://github.com/maxlath/wikidata-rank)
 
 ## Summary
 
@@ -8,26 +19,49 @@ Attributing scores to Wikidata items, publishing those with a web API and dumps 
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Install](#install)
-- [Calculate scores](#calculate-scores)
-  - [Base scores](#base-scores)
-  - [Network scores](#network-scores)
-  - [Secondary network scores](#secondary-network-scores)
-  - [Total scores](#total-scores)
-  - [All scores](#all-scores)
 - [Web API](#web-api)
+- [Dumps](#dumps)
+- [Development setup](#development-setup)
+  - [Dependencies](#dependencies)
+  - [Install](#install)
+  - [Calculate scores](#calculate-scores)
+    - [Base scores](#base-scores)
+    - [Network scores](#network-scores)
+    - [Secondary network scores](#secondary-network-scores)
+    - [Total scores](#total-scores)
+    - [All scores](#all-scores)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Install
+## Web API
+```
+GET /scores?ids=Q8027|Q1001|Q216092|Q79969
+GET /scores?ids=Q8027|Q1001|Q216092|Q79969&subscores=true
+```
+
+## Dumps
+> *coming soon*
+
+
+## Development setup
+
+### Dependencies
+* [NodeJS](https://nodejs.org) `>v6.4.0` (recommanded way to install: [NVM](https://github.com/creationix/nvm))
+
+### Install
 ```sh
 git clone https://github.com/maxlath/wikidata-rank
 cd wikidata-rank
+npm install
+# Starts the server on port 7264 and watch for files changes to restart
+npm run watch
 ```
 
-## Calculate scores
+At this point, your server is setup, but it has nothing to serve: we need to [populate the database with items scores](#calculate-scores)
 
-### Base scores
+### Calculate scores
+
+#### Base scores
 
 > item base score =
 > number of labels<br>
@@ -43,32 +77,29 @@ wget -c https://dumps.wikimedia.org/wikidatawiki/entities/latest-all.json.gz
 cat latest-all.json.gz | gzip -d | ./scripts/calculate_base_scores
 ```
 
-### Network scores
+#### Network scores
 > item network score = sum of the base scores of items linking to the item
+
 ```sh
 ./scripts/calculate_network_scores
 ```
 
-### Secondary network scores
+#### Secondary network scores
 > item secondary network score = sum of the network scores of items linking to the item
+
 ```sh
 ./scripts/calculate_secondary_network_scores
 ```
 
-### Total scores
+#### Total scores
 > item total score = base score + network score * 0.25 + secondary network score * 0.1
 
 ```sh
 ./scripts/calculate_total_scores
 ```
 
-### All scores
+#### All scores
+You can alternatively calculate all those scores at once:
 ```sh
 ./scripts/calculate_all_scores dump.json
-```
-
-## Web API
-```
-GET /scores?ids=Q8027|Q1001|Q216092|Q79969
-GET /scores?ids=Q8027|Q1001|Q216092|Q79969&subscores=true
 ```
