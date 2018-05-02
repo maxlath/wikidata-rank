@@ -10,7 +10,8 @@
     "lint": "standard",
     "test": "mocha",
     "update-properties": "wd props --type > properties.json",
-    "update-toc": " doctoc README.md"
+    "update-toc": "doctoc README.md",
+    "build-home": "./scripts/build_home"
   },
   "keywords": [
     "wikidata",
@@ -26,6 +27,7 @@
     "chalk": "^2.4.1",
     "config": "^1.30.0",
     "express": "^4.16.3",
+    "github-markdown-css": "^2.10.0",
     "inv-loggers": "^3.3.3",
     "level-party": "^3.0.4",
     "lodash": "^4.17.10",
@@ -50,6 +52,7 @@
   },
   "devDependencies": {
     "bluereq": "^2.1.6",
+    "marked": "^0.3.19",
     "should": "^13.2.1",
     "standard": "^11.0.1",
     "supervisor": "^0.12.0"

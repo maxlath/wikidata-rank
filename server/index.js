@@ -15,6 +15,7 @@ app.use(favicon)
 
 app.use(`${root}/public`, express.static(publicFileRoot))
 app.get(`${root}/scores`, require('./scores'))
+app.get(`${root}/`, require('./home')(publicFileRoot))
 
 app.listen(port, err => {
   if (err) logger.error(err, 'startup error')

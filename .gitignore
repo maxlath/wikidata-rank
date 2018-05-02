@@ -2,3 +2,6 @@ node_modules
 db
 properties.json
 package-lock.json
+assets/html/home.content.html
+public/github-markdown.css
+public/index.html
