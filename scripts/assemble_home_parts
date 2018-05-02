@@ -1,6 +1,12 @@
 #!/usr/bin/env node
+const CONFIG = require('config')
 const fs = require('fs')
+const githubAssets = 'https://raw.githubusercontent.com/maxlath/wikidata-rank/master/assets'
+
 const base = fs.readFileSync('./assets/html/home.base.html').toString()
 const content = fs.readFileSync('./assets/html/home.content.html').toString()
-const html = base.replace('CONTENT', content)
+const html = base
+  .replace('CONTENT', content)
+  .replace(githubAssets, CONFIG.base() + '/public')
+
 console.log(html)

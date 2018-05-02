@@ -18,7 +18,7 @@ cp assets/images/favicon.128x128.png public/icons/128.png
 cp assets/images/favicon.192x192.png public/icons/192.png
 cp assets/images/favicon.ico public/favicon.ico
 cp assets/images/logo_sorted.png public/logo_sorted.png
-cp assets/images/logo_sorted_square.png public/logo_sorted_square.png
+cp assets/images/logo_sorted_square.png public/images/logo_sorted_square.png
 
 URL_BASE=$(node -p "require('config').base()")
 NAME=$(node -p "require('config').metadata.name")
