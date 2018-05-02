@@ -30,6 +30,7 @@ There are already pre-existing works on a [Wikidata Page Rank](http://people.aif
     - [Secondary network scores](#secondary-network-scores)
     - [Total scores](#total-scores)
     - [All scores](#all-scores)
+- [Deploy](#deploy)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -102,4 +103,14 @@ cat latest-all.json.gz | gzip -d | ./scripts/calculate_base_scores
 You can alternatively calculate all those scores at once:
 ```sh
 ./scripts/calculate_all_scores dump.json
+```
+
+## Deploy
+See the [`Hub` deploy doc](https://github.com/maxlath/hub/blob/master/docs/deploy.md), simply replacing `hub` by `wd-rank`, especially on step 4:
+```sh
+echo "module.exports = {
+  host: 'https://tools.wmflabs.org',
+  // Customize root to match the URL passed by Nginx
+  root: '/wd-rank'
+}" > config/local.js
 ```
