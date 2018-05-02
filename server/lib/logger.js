@@ -9,10 +9,21 @@ logger.warn = (err, label) => {
   } else {
     const { message, context } = err
     label = label || message
-    const emitter = err.stack && err.stack.split('\n').slice(0, 5)
+    const stackLength = err.statusCode < 500 ? 3 : 50
+    const emitter = getEmitter(err.stack, message, stackLength)
     obj = { message, context, emitter }
   }
   logger.log(obj, label, 'yellow')
+}
+
+const getEmitter = (stack, message, length) => {
+  if (!stack) return
+  return stack.split('\n')
+  .filter(line => {
+    return !(/\/errors.js:/.test(line) || line.match(message))
+  })
+  .slice(0, length)
+  .map(line => line.trim())
 }
 
 module.exports = logger
