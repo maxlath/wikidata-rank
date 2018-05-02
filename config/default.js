@@ -1,6 +1,6 @@
 module.exports = {
   host: 'http://localhost:7264',
-  name: 'hub',
+  name: 'wd-hack',
   port: 7264,
   root: '',
   base: function () {
