@@ -29,8 +29,7 @@ describe('scores', function () {
     .then(res => {
       res.statusCode.should.equal(200)
       res.body.scores.should.be.an.Object()
-      res.body.scores.Q1001.should.be.an.Object()
-      res.body.scores.Q1001.total.should.be.an.Number()
+      res.body.scores.Q1001.should.be.an.Number()
       done()
     })
     .catch(undesiredErr(done))
@@ -41,6 +40,21 @@ describe('scores', function () {
     .then(res => {
       res.statusCode.should.equal(200)
       res.body.notFound.should.deepEqual([ 'Q7777777777' ])
+      done()
+    })
+    .catch(undesiredErr(done))
+  })
+
+  it('should return subscores if requested', done => {
+    get('/scores?ids=Q1001&subscores=true')
+    .then(res => {
+      res.statusCode.should.equal(200)
+      res.body.scores.should.be.an.Object()
+      res.body.scores.Q1001.should.be.an.Object()
+      res.body.scores.Q1001.base.should.be.an.Number()
+      res.body.scores.Q1001.total.should.be.an.Number()
+      res.body.coefficients.should.be.an.Object()
+      res.body.coefficients.base.should.equal(1)
       done()
     })
     .catch(undesiredErr(done))
