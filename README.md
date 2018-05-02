@@ -1,6 +1,6 @@
 <!-- Centering -->
-<div style="margin: 0 auto; width: 300px; text-align: center;">
-  <img src="/public/logo_sorted_square.png" width="300">
+<div style="margin: 0 auto; width: 300px; text-align: center;" align="center">
+  <img src="https://raw.githubusercontent.com/maxlath/wikidata-rank/master/assets/images/logo_sorted_square.png" width="300">
   <h1>Wikidata Rank</h1>
 </div>
 
