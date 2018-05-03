@@ -11,7 +11,8 @@
     "test": "mocha",
     "update-properties": "wd props --type > properties.json",
     "update-toc": "doctoc README.md",
-    "build-home": "./scripts/build_home"
+    "build-home": "./scripts/build_home",
+    "reset-database": "rm -rf ./db"
   },
   "keywords": [
     "wikidata",

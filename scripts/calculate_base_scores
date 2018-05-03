@@ -13,7 +13,13 @@ process.stdin
 .on('data', function (line) {
   if (line[0] !== '{') return
   line = line.replace(/,$/, '')
-  const entity = JSON.parse(line)
+  var entity
+  try {
+    entity = JSON.parse(line)
+  } catch (err) {
+    console.log(red(line))
+    throw err
+  }
   if (entity.type !== 'item') return
   const data = getEntityData(entity)
   batch.aggregate(buildOpFromEntityData(entity.id, data), this)

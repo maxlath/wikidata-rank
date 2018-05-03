@@ -1,12 +1,5 @@
 #!/usr/bin/env bash
 
-dump=$1
-
-[[ -z "$dump" ]] && {
-  echo "expected dump file as first argument"
-  exit 1
-}
-
 load_balance(){
   name=$1
   echo -e '\e[0;34mstarting to calculate ' $name '\e[0m'
@@ -15,7 +8,9 @@ load_balance(){
 }
 
 echo -e '\e[0;32mlets go!\e[0m'
-cat "$dump" | load_balance 'base_scores' &&
+
+# Expect the dump on stdin
+cat | load_balance 'base_scores' &&
 ./scripts/get_ids_stream | load_balance 'network_scores' &&
 ./scripts/get_ids_stream | load_balance 'secondary_network_scores' &&
 ./scripts/get_ids_stream | load_balance 'total_scores' &&
