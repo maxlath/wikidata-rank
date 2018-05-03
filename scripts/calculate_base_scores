@@ -13,6 +13,7 @@ process.stdin
   if (line[0] !== '{') return
   line = line.replace(/,$/, '')
   const entity = JSON.parse(line)
+  if (entity.type !== 'item') return
   const data = getEntityData(entity)
   batch.aggregate(buildOpFromEntityData(entity.id, data), this)
   status.increment()
