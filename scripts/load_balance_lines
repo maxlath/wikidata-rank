@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 const { spawn } = require('child_process')
 const coreCount = require('os').cpus().length
-const { WDR_INSTANCES } = process.env
-const childCount = parseInt(WDR_INSTANCES) || Math.trunc(coreCount / 2) || 1
 const split = require('split')
 const { roundRobinBalanceLine, closeChildren, exitOnChildExit } = require('../lib/multi_processes_helpers')
 const logAndExit = require('../lib/log_and_exit')
@@ -11,9 +9,9 @@ const [ command, ...args ] = process.argv.slice(2)
 
 const children = []
 
-console.log('parallel processes', childCount)
+console.log('parallel processes', coreCount)
 
-for (let i = 0 ; i < childCount ; i++) {
+for (let i = 0 ; i < coreCount ; i++) {
   const child = spawn(command, args, {
     stdio: [ 'pipe', 'inherit', 'inherit' ]
   })
