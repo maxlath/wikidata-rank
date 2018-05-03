@@ -33,6 +33,7 @@
     "express": "^4.16.3",
     "github-markdown-css": "^2.10.0",
     "inv-loggers": "^3.3.3",
+    "lev": "git+https://github.com/maxlath/lev.git#master",
     "level-party": "^3.0.4",
     "lodash": "^4.17.10",
     "morgan": "^1.1.1",

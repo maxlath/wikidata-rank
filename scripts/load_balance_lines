@@ -1,8 +1,10 @@
+#!/usr/bin/env node
+
 const { spawn } = require('child_process')
 const coreCount = require('os').cpus().length
 const split = require('split')
-const { roundRobinBalanceLine, closeChildren, exitOnChildExit } = require('./multi_processes_helpers')
-const logAndExit = require('./log_and_exit')
+const { roundRobinBalanceLine, closeChildren, exitOnChildExit } = require('../lib/multi_processes_helpers')
+const logAndExit = require('../lib/log_and_exit')
 
 const [ command, ...args ] = process.argv.slice(2)
 
