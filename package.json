@@ -1,7 +1,7 @@
 {
   "name": "wikidata-rank",
   "version": "1.0.0",
-  "description": "",
+  "description": "Attributing scores to Wikidata items, making those available via a web API and dumps, under a CC0 license",
   "main": "server/index.js",
   "scripts": {
     "start": "export FORCE_COLOR=true; node server/index.js",
@@ -20,7 +20,11 @@
     "item",
     "score"
   ],
-  "author": "maxlath",
+  "author": {
+    "name": "Maxime Lathuilière",
+    "email": "k@maxlath.eu",
+    "url": "https://maxlath.eu"
+  },
   "license": "AGPL-3.0",
   "dependencies": {
     "bluebird": "^3.5.1",
@@ -47,8 +51,7 @@
     ]
   },
   "engines": {
-    "node": "^8.2.1",
-    "npm": "^5.4.1"
+    "node": ">= 6.4"
   },
   "devDependencies": {
     "bluereq": "^2.1.6",
