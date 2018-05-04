@@ -4,6 +4,7 @@ const batch = require('../lib/batch')
 const getEntityData = require('../lib/get_entity_data')
 const { buildOpFromEntityData } = require('../lib/ops')
 const status = require('../lib/status')
+const { pid } = status
 const { green, grey, red } = require('chalk')
 const logAndExit = require('../lib/log_and_exit')
 
@@ -12,7 +13,13 @@ process.stdin
 .on('data', function (line) {
   if (line[0] !== '{') return
   line = line.replace(/,$/, '')
-  const entity = JSON.parse(line)
+  var entity
+  try {
+    entity = JSON.parse(line)
+  } catch (err) {
+    console.log(red(line))
+    throw err
+  }
   if (entity.type !== 'item') return
   const data = getEntityData(entity)
   batch.aggregate(buildOpFromEntityData(entity.id, data), this)
@@ -26,7 +33,7 @@ process.stdin
 
 setTimeout(() => {
   if (status.counter() === 0) {
-    console.error(red('expect data on process stdin'))
+    console.error(pid, red('expect data on process stdin'))
     process.exit(1)
   }
 }, 1000)

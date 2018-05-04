@@ -1,13 +1,17 @@
 #!/usr/bin/env bash
-dump=$1
 
-[[ -z "$dump" ]] && {
-  echo "expected dump file as first argument"
-  exit 1
+load_balance(){
+  name=$1
+  echo -e '\e[0;34mstarting to calculate ' $name '\e[0m'
+  # Being nice to other processes
+  nice ./scripts/load_balance_lines "./scripts/calculate_${name}"
 }
 
-cat "$dump" | ./scripts/calculate_base_scores &&
-./scripts/calculate_network_scores &&
-./scripts/calculate_secondary_network_scores &&
-./scripts/calculate_total_scores &&
-echo 'all scores were successfully calculated'
+echo -e '\e[0;32mlets go!\e[0m'
+
+# Expect the dump on stdin
+cat | load_balance 'base_scores' &&
+./scripts/get_ids_stream | load_balance 'network_scores' &&
+./scripts/get_ids_stream | load_balance 'secondary_network_scores' &&
+./scripts/get_ids_stream | load_balance 'total_scores' &&
+echo -e '\e[0;32mall scores were successfully calculated\e[0m'

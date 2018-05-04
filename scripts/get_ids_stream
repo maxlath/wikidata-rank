@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+lev ./db --keys --start 'base:Q' --end 'base:R' --map 'key => key.split(":")[1]'

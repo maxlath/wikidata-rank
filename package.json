@@ -10,8 +10,10 @@
     "lint": "standard",
     "test": "mocha",
     "update-properties": "wd props --type > properties.json",
+    "calculate-all-scores": "./scripts/calculate_all_scores",
     "update-toc": "doctoc README.md",
-    "build-home": "./scripts/build_home"
+    "build-home": "./scripts/build_home",
+    "reset-database": "rm -rf ./db"
   },
   "keywords": [
     "wikidata",
@@ -33,13 +35,15 @@
     "express": "^4.16.3",
     "github-markdown-css": "^2.10.0",
     "inv-loggers": "^3.3.3",
+    "lev": "git+https://github.com/maxlath/lev.git#master",
     "level-party": "^3.0.4",
+    "load-balance-lines": "^1.0.1",
     "lodash": "^4.17.10",
     "morgan": "^1.1.1",
     "serve-favicon": "^2.5.0",
     "split": "^1.0.1",
     "wikidata-cli": "^6.0.4",
-    "wikidata-sdk": "^5.9.2"
+    "wikidata-sdk": "^5.9.4"
   },
   "standard": {
     "ignore": [
