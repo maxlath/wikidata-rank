@@ -5,16 +5,24 @@ dump_path="$1"
 
 load_balance(){
   name=$1
-  echo -e '\e[0;34mstarting to calculate ' $name '\e[0m'
+  echo -e '\e[0;34mstarting to calculate' $name '\e[0m'
   # Being nice to other processes
-  nice ./scripts/load_balance_lines "./scripts/calculate_${name}"
+  nice -n+19 ./node_modules/.bin/load-balance-lines "./scripts/calculate_${name}"
 }
 
 echo -e '\e[0;32mlets go!\e[0m'
 
-# Expect the dump on stdin
-cat | load_balance 'base_scores' &&
-./scripts/get_ids_stream | load_balance 'network_scores' &&
-./scripts/get_ids_stream | load_balance 'secondary_network_scores' &&
-./scripts/get_ids_stream | load_balance 'total_scores' &&
-echo -e '\e[0;32mall scores were successfully calculated\e[0m'
+cores=$(node -p "require('os').cpus().length")
+totalRam=$(node -p "Math.trunc(require('os').totalmem() / Math.pow(1024, 2))")
+halfTotalRam=$(node -p "Math.trunc(${totalRam}/2)")
+
+export NODE_OPTIONS="--max_old_space_size=${halfTotalRam}"
+export LBL_PROCESSES=$cores
+
+nice -n+19 pigz --decompress --processes $cores < "$dump_path" |
+  load_balance 'base_scores' &&
+  ./scripts/get_ids_stream > ./scripts/assets/ids
+  load_balance 'network_scores' < ./scripts/assets/ids &&
+  load_balance 'secondary_network_scores' < ./scripts/assets/ids &&
+  load_balance 'total_scores' < ./scripts/assets/ids &&
+  echo -e '\e[0;32mall scores were successfully calculated\e[0m'

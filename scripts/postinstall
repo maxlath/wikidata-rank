@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 npm run update-properties
 npm run build-home
+mkdir -p scripts/assets

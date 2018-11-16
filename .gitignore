@@ -4,3 +4,6 @@ properties.json
 package-lock.json
 assets/html/home.content.html
 public
+assets/images
+*.gz
+scripts/assets
