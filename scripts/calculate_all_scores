@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+dump_path="$1"
+[ -z "$dump_path" ] && dump_path=latest-all.json.gz
+
 load_balance(){
   name=$1
   echo -e '\e[0;34mstarting to calculate ' $name '\e[0m'
