@@ -22,7 +22,10 @@ process.stdin
   }
   if (entity.type !== 'item') return
   const data = getEntityData(entity)
-  batch.aggregate(buildOpFromEntityData(entity.id, data), this)
+  batch.aggregate({
+    newOps: buildOpFromEntityData(entity.id, data),
+    stream: this
+  })
   status.increment()
 })
 .on('close', () => {

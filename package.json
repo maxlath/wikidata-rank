@@ -42,8 +42,8 @@
     "morgan": "^1.1.1",
     "serve-favicon": "^2.5.0",
     "split": "^1.0.1",
-    "wikidata-cli": "^6.0.4",
-    "wikidata-sdk": "^5.9.4"
+    "wikidata-cli": "^7.0.2",
+    "wikidata-sdk": "^5.15.9"
   },
   "standard": {
     "ignore": [
