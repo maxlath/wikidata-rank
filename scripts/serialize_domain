@@ -1,0 +1,23 @@
+#!/usr/bin/env node
+
+const [ domain ] = process.argv.slice(2)
+const db = require('../lib/db')
+const fs = require('fs')
+const data = []
+
+const fileStream = fs.createWriteStream(`./scripts/assets/${domain}`)
+
+db.createReadStream({ gte: `${domain}:Q`, lt: `${domain}:R` })
+.on('data', ({ key, value }) => {
+  const numericId = key.replace(`${domain}:Q`, '')
+  fileStream.write(`${numericId} ${value}`)
+})
+.on('close', () => {
+  fileStream.emit('finish')
+  // const output = `[${data.toString()}]`
+  // fs.writeFileSync(`./scripts/assets/${domain}`, output)
+})
+.on('error', err => {
+  console.error(err)
+  process.exit(1)
+})

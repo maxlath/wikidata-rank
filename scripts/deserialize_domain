@@ -1,0 +1,6 @@
+#!/usr/bin/env node
+
+const [ domain ] = process.argv.slice(2)
+const deserializeDomain = require('../lib/deserialize_domain')
+
+const data = deserializeDomain(domain)
