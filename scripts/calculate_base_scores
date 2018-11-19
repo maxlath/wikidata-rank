@@ -26,7 +26,7 @@ process.stdin
     newOps: buildOpFromEntityData(entity.id, data),
     stream: this
   })
-  status.increment()
+  status.increment(`items base scores calcuated`)
 })
 .on('close', () => {
   batch.flush()
