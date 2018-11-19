@@ -9,14 +9,14 @@ load_balance(){
   name=$1
   echo -e '\e[0;34mstarting to calculate' $name '\e[0m'
   # Being nice to other processes
-  nice -n+19 ./node_modules/.bin/load-balance-lines "node ./scripts/calculate_${name}"
+  nice -n+19 ~/.nvm/versions/node/v6.11.0/bin/node ./node_modules/.bin/load-balance-lines "~/.nvm/versions/node/v6.11.0/bin/node ./scripts/calculate_${name}"
 }
 
 echo -e '\e[0;32mlets go!\e[0m'
 
-cores=$(node -p "require('os').cpus().length")
-totalRam=$(node -p "Math.trunc(require('os').totalmem() / Math.pow(1024, 2))")
-halfTotalRam=$(node -p "Math.trunc(${totalRam}/2)")
+cores=$(~/.nvm/versions/node/v6.11.0/bin/node -p "require('os').cpus().length")
+totalRam=$(~/.nvm/versions/node/v6.11.0/bin/node -p "Math.trunc(require('os').totalmem() / Math.pow(1024, 2))")
+halfTotalRam=$(~/.nvm/versions/node/v6.11.0/bin/node -p "Math.trunc(${totalRam}/2)")
 
 export NODE_OPTIONS="--max_old_space_size=${halfTotalRam}"
 export LBL_PROCESSES=$cores

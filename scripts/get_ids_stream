@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-lev ./db --keys --start 'base:Q' --end 'base:R' --map 'key => key.split(":")[1]'
+./node_modules/.bin/lev ./db --keys --start 'base:Q' --end 'base:R' --map 'key => key.split(":")[1]'
