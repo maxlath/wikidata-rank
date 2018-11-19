@@ -137,3 +137,15 @@ exit
 sed -i 's@node "./scripts@~/.nvm/versions/node/v6.11.0/bin/node "./scripts@' ./scripts/calculate_all_scores
 ./scripts/calculate_all_scores
 ```
+
+### run as a daemon
+```sh
+cd
+git clone https://github.com/AvianFlu/aeternum.git
+cd aeternum
+make
+cd ~/www/js
+~/aeternum/aeternum -o ./calculate_all_scores.log -e ./calculate_all_scores.err -- ./scripts/calculate_all_scores
+# Follow the logs
+tail -f ./calculate_all_scores*
+```
