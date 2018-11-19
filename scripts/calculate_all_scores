@@ -8,13 +8,12 @@ dump_path="$1"
 run_operation(){
   name=$1
   echo -e '\e[0;34mstarting to calculate' $name '\e[0m'
-  # Being nice to other processes
-  nice -n+19 node "./scripts/calculate_${name}"
+  ~/.nvm/versions/node/v6.11.0/bin/node "./scripts/calculate_${name}"
 }
 
 echo -e '\e[0;32mlets go!\e[0m'
 
-nice -n+19 gzip --decompress < "$dump_path" |
+gzip --decompress < "$dump_path" |
   run_operation 'base_scores' &&
   ./scripts/get_ids_stream > ./scripts/assets/ids
   run_operation 'network_scores' < ./scripts/assets/ids &&
