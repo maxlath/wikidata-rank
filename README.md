@@ -105,7 +105,7 @@ You can alternatively calculate all those scores at once:
 ./scripts/calculate_all_scores dump.json
 ```
 
-## Deploy
+## Deploy to Toolforge
 See the [`Hub` deploy doc](https://github.com/maxlath/hub/blob/master/docs/deploy.md), simply replacing `hub` by `wd-rank`, especially on step 4:
 ```sh
 echo "module.exports = {
@@ -113,4 +113,27 @@ echo "module.exports = {
   // Customize root to match the URL passed by Nginx
   root: '/wd-rank'
 }" > config/local.js
+```
+
+### install NodeJS with NVM
+We can't access wikidata entities dump at `/mnt/nfs/dumps-labstore1006.wikimedia.org/xmldatadumps/public/wikidatawiki/entities/latest-all.json.gz` from the NodeJS webservice (see [Phabricator ticket T193646](https://phabricator.wikimedia.org/T193646)), so a work-around is to install our own NodeJS using [NVM](https://github.com/creationix/nvm):
+```sh
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+. $HOME/.nvm/nvm.sh
+# Use the same version as `webservice --backend=kubernetes nodejs shell`
+nvm install 6.11.0
+```
+
+### run with custom NodeJS
+`npm` operations still need to be done from the webservice I can't find a way to make the environment take that new node binary into account rather that `/usr/bin/node`
+```sh
+webservice --backend=kubernetes nodejs shell
+cd ~/www/js
+npm install
+exit
+```
+```sh
+# Force the use of our custom node binary
+sed -i 's@node "./scripts@~/.nvm/versions/node/v6.11.0/bin/node "./scripts@' ./scripts/calculate_all_scores
+./scripts/calculate_all_scores
 ```
