@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 dump_path="$1"
 [ -z "$dump_path" ] && dump_path=latest-all.json.gz
 
