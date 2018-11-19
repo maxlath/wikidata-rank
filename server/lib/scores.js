@@ -6,10 +6,12 @@ const formatScores = subscores => data => {
   var notFound = {}
   Object.keys(data).forEach(key => {
     const [ domain, id ] = key.split(':')
-    const score = data[key]
+    let score = data[key]
     if (score == null) {
       notFound[id] = true
-    } else if (subscores) {
+      score = 0
+    }
+    if (subscores) {
       scores[id] = scores[id] || {}
       scores[id][domain] = score
     } else {
