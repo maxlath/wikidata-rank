@@ -3,26 +3,19 @@
 dump_path="$1"
 [ -z "$dump_path" ] && dump_path=latest-all.json.gz
 
-load_balance(){
+run_operation(){
   name=$1
   echo -e '\e[0;34mstarting to calculate' $name '\e[0m'
   # Being nice to other processes
-  nice -n+19 ./node_modules/.bin/load-balance-lines "node ./scripts/calculate_${name}"
+  nice -n+19 node "./scripts/calculate_${name}"
 }
 
 echo -e '\e[0;32mlets go!\e[0m'
 
-cores=$(node -p "require('os').cpus().length")
-totalRam=$(node -p "Math.trunc(require('os').totalmem() / Math.pow(1024, 2))")
-halfTotalRam=$(node -p "Math.trunc(${totalRam}/2)")
-
-export NODE_OPTIONS="--max_old_space_size=${halfTotalRam}"
-export LBL_PROCESSES=$cores
-
-nice -n+19 pigz --decompress --processes $cores < "$dump_path" |
-  load_balance 'base_scores' &&
+nice -n+19 gzip --decompress < "$dump_path" |
+  run_operation 'base_scores' &&
   ./scripts/get_ids_stream > ./scripts/assets/ids
-  load_balance 'network_scores' < ./scripts/assets/ids &&
-  load_balance 'secondary_network_scores' < ./scripts/assets/ids &&
-  load_balance 'total_scores' < ./scripts/assets/ids &&
+  run_operation 'network_scores' < ./scripts/assets/ids &&
+  run_operation 'secondary_network_scores' < ./scripts/assets/ids &&
+  run_operation 'total_scores' < ./scripts/assets/ids &&
   echo -e '\e[0;32mall scores were successfully calculated\e[0m'
