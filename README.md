@@ -138,14 +138,12 @@ sed -i 's@node "./scripts@~/.nvm/versions/node/v6.11.0/bin/node "./scripts@' ./s
 ./scripts/calculate_all_scores
 ```
 
-### run as a daemon
+### run as a job on Toolforge
+See [Toolforge Grid doc](https://wikitech.wikimedia.org/wiki/Help:Toolforge/Grid)
 ```sh
-cd
-git clone https://github.com/AvianFlu/aeternum.git
-cd aeternum
-make
-cd ~/www/js
-~/aeternum/aeternum -o ./calculate_all_scores.log -e ./calculate_all_scores.err -- ./scripts/calculate_all_scores
+JOB_ID=$(jsub -mem 2048m ./scripts/run_calculate_all_scores | tee /dev/tty | sed -E 's/.* ([0-9]+) .*/\1/')
+# See job info
+qstat -j $JOB_ID
 # Follow the logs
-tail -f ./calculate_all_scores*
+tail -f ./run_calculate_all_scores*
 ```
