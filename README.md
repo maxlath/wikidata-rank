@@ -4,6 +4,8 @@
   <h1>Wikidata Rank</h1>
 </div>
 
+**STATUS**: **WIP**
+
 **Attributing scores to [Wikidata items](https://www.wikidata.org/wiki/Wikidata:Glossary#Item), making those available via a [web API](#web-api) and [dumps](#dumps), under a [CC0](https://creativecommons.org/publicdomain/zero/1.0/) license.**
 
 **Motivation**: when re-using Wikidata data, it can be useful to be able to sort a bunch of items by some kind of score [[1](https://stackoverflow.com/questions/39438022/wikidata-results-sorted-by-something-similar-to-a-pagerank)], [[2](https://github.com/inventaire/inventaire/blob/1aaff2a/server/data/wikidata/queries/links_count.coffee)]. So instead of spamming query.wikidata.org with one SPARQL request per item, we pre-calculate a score for all items from a [Wikidata Dump](https://www.wikidata.org/wiki/Wikidata:Database_download#JSON_dumps_.28recommended.29), and serve them in bulk.
